@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Homepage</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<script src="js/jquery.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script>
+function order(itemid,itemname){
+  $.ajax({
+  url: "item_order.php",
+  type: "post",
+  data:{"i_id":itemid,"i_name":itemname},
+      success: function(data) {
+        if(data=="success"){
+            alert("Order Successfully");
+        }else{
+            alert("Order Fail");
+        }
+        gosearch();
+      },
+      error: function() {
+        alert("Can't Conntect!!");
+      }
+  });
+
+
+}
+function message(itemid,itemdonator){
+  location= "msg.php?itemid="+itemid+"&itemDoner="+itemdonator;
+}
+function viewme(itemid){
+  console.log(itemid);
+  location="viewme.php?itemid="+itemid;
+
+}
+function gosearch(){
+  var foodtypeval=$('#foodtypeselect').val();
+  var keyword=$('#keyword').val();
+    var testKeyword = /^[A-Za-z]+$/;
+  if(!testKeyword.test(keyword) && keyword!=''){
+  alert("You have to enter a keyword in English characters only");
+  return;
+}
+    
+  $.ajax({
+  url: "search.php",
+  type: "post",
+  data:{"searchq":keyword,"itemtype":foodtypeval},
+      success: function(tabledata) {
+              console.log(tabledata);
+              $('#searchresult').html(tabledata);
+              var stable=$('#searchresult').DataTable({
+                "destroy":true,
+                columnDefs:[
+                  {'targets':'_all','className':'dt-center'}
+                ]
+              });
+              //$('#searchresult tbody').on( 'click', 'button', function () {
+                    //  var data = stable.row( $(this).parents('tr') ).data();
+                      //alert( data[0] +"'s salary is: "+ data[ 3 ] );
+            //  });
+      },
+      error: function() {
+        alert("Can't Conntect!!");
+      }
+  });
+}
+function gowish(){
+  var w_type=$('#foodtypeselect').val();
+  var w_content=$('#keyword').val();
+    var testKeyword = /^[A-Za-z]+$/;
+    if(w_content=='' || w_content==undefined || w_content==null || !testKeyword.test(w_content)){
+    alert("You have to enter a keyword in English characters only");
+    return;
+  }
+  $.ajax({
+  url: 'wish.php',
+  type: "post",
+  data:{"w_type":w_type,"w_content":w_content},
+  dataType:"text",
+  success: function(data){
+      alert(data);
+      // console.log(msg);
+  },
+  error:function(msg){
+    console.log(msg);
+  }
+  });
+}
+$(document).ready(function() {
+    //$('#foodtypeselect').dropdown();
+
+} );
+</script>
+
+</head>
+<body>
+  <header>
+		<div class="container" style="background:url('images/lemon2.jpg');background-repeat:repeat-x;">
+			<div class="nav-brand">
+				<a class="logo">Food Spray</a>
+			</div>
+			<nav id="nav" role="navigation">
+				<ul>
+					<li><a href="index.html" class="active">Home</a></li>
+					<li><a href="map.html">Map</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="u_log.php">Login</a></li>
+          <li><a href="u_photo.php">Register</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<div class="container">
+  <content>
+    <div class="main-body" style="background:url('images/featured-1.jpg');background-repeat:no-repeat;">
+      <form>
+        <div class="form-group"> <!--boostrap -->
+            <label for="foodtypeselect">Food Type</label>
+            <select class="form-control" id="foodtypeselect"> <!--boostrap -->
+                    <option value="Any">Choose a type</option>
+                    <option value="Bakery Product">Bakery Product</option>
+                    <option value="Fruit and Vegetable">Fruit and Vegetable</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Dry Goods">Dry Goods</option>
+                    <option value="Frozen Food">Frozen Food</option>
+                    <option value="Homemade">Homemade</option>
+                    <option value="Pet Food">Pet Food</option>
+                    <option value="Others">Others</option>
+                </select>
+        </div>
+        <div class="form-group">
+          <label for="keyword">Keyword</label>
+          <input type="text" id="keyword" class="form-control" type="text" placeholder="Search food...">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="gosearch();">Search</button> <!--boostrap -->
+        <button type="button" class="btn btn-secondary" onclick="gowish();">Go Wish</button>
+      </form>
+      <table id="searchresult" class="table table-striped table-bordered" style="width:100%">
+      </table>
+  </div>
+  </content>
+	</div>
+  <footer>
+    <hr/>
+    <div class="copyright">
+		<i>
+			Address:The Palatine Centre Durham University Stockton Road Durham DH1 3LE UK
+			Phone:0191 334 2222
+		</i>
+		<br/>
+		<i>
+		@copyright - Durham Food Spary Team1
+		</i>
+	  </div>
+  </footer>
+</body>

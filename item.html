@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Add_an_item</title>
+      <meta charset="UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <link rel="stylesheet" href="css/jquery-ui.css">
+      <script src="js/jquery.js"></script>
+      <script src="bootstrap/js/bootstrap.js"></script>
+      <script src="js/popper.js"></script>
+      <script src="js/jquery.dataTables.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script>
+         $( function() {
+             $( "#i_exp_date" ).datepicker({dateFormat: "yy-mm-dd"});
+         });
+
+         $( function() {
+             $( "#i_collect_date" ).datepicker({dateFormat: "yy-mm-dd"});
+         });
+
+         $(function() {
+             $('#is_collected').click(function() {
+                 this.value = (this.value == 0) ? 1 : 0;
+                 var obj = $("#i_collect_date").get(0);
+                 obj.disabled = !$("#is_collected")[0].checked;
+             });
+         });
+      </script>
+   </head>
+   <body>
+	   <div class="container">
+      <content>
+         <div class="main-body" style="background:url('images/featured-1.jpg');background-repeat:no-repeat;">
+			 <div class="container">
+               <h2>Add Item Form</h2>
+            <form enctype="multipart/form-data" method="post" action="item_adding.php">
+               <div class="form-group">
+                  <label for="i_name">Item Name</label>
+                  <input class="form-control" type="text" name="i_name" id="i_name" required/>
+               </div>
+               <div class="form-group">
+                  <label for="i_type">Item Type</label>
+                  <select name="i_type" id="i_type" class="form-control">
+                     <option selected="selected">Choose a type</option>
+                     <option value="Bakery Product">Bakery Product</option>
+                     <option value="Fruit and Vegetable">Fruit and Vegetable</option>
+                     <option value="Dairy">Dairy</option>
+                     <option value="Dry Goods">Dry Goods</option>
+                     <option value="Frozen Food">Frozen Food</option>
+                     <option value="Homemade">Homemade</option>
+                     <option value="Pet Food">Pet Food</option>
+                     <option value="Pet Food">Others</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label for="i_quantity">Quantity</label>
+                  <input type="text" name="i_quantity"  class="form-control" id="i_quantity" required/>
+                  <select name="i_unit" id="i_unit"  class="form-control">
+                     <option value="g">g</option>
+                     <option value="mL">mL</option>
+                     <option value="pieces">pieces</option>
+                     <option value=" ">--</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <label for="i_exp_date">Expired Date</label>
+                  <input type="text" name="i_exp_date" id="i_exp_date" class="form-control" required/>
+               </div>
+               <div class="form-group">
+                  <label for="i_location">Location</label>
+                  <input type="text" name="i_location" id="i_location" class="form-control" required/>
+               </div>
+               <div class="form-group">
+                  <label for="i_img">Picture</label>
+                  <input type="file" name="img" id="i_img" class="form-control"/>
+               </div>
+               <div class="form-group">
+                  <label for="i_detail">Description</label>
+                  <textarea name="i_detail" rows="3" cols="30" id="i_detail"  class="form-control"></textarea>
+               </div>
+               <div class="form-group">
+                  <div class="form-check"> <!--boostrap -->
+                     <input type="checkbox" name="is_collected" value="0" id="is_collected"  class="form-check-input"/>
+                     <label>I allow this item being colleted by volunteers.</label>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label for="i_collect_date">Collection Date</label>
+                  <input type="text" name="i_collect_date" id="i_collect_date" disabled="disabled" class="form-control"/>
+               </div>
+               <div class="form-group">
+                  <input type="submit" name="submit" class="btn btn-primary" value="Submit"/>
+               </div>
+               <div class="form-group">
+                  <a href="u_myaccount1.php">Back</a>
+               </div>
+            </form>
+         </div>
+		  </div>
+      </content>
+	   </div>
+   </body>
+</html>
